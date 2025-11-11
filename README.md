@@ -1,18 +1,20 @@
 # pytorch-classification
-Classification on CIFAR-10/100 and ImageNet with PyTorch.
+This repository is a fork of [pytorch-classification](https://github.com/bearpaw/pytorch-classification/), extended with new features.
 
 ## Features
 * Unified interface for different network architectures
 * Multi-GPU support
 * Training progress bar with rich info
 * Training log and training curve visualization code (see `./utils/logger.py`)
+* **New:** Grad-CAM visualization script (`gradcam.py`) compatible with all supported models.
+* **New:** Expanded model support for EfficientNet, ViT, ConvNeXt, and more.
 
 ## Install
 * Install [PyTorch](http://pytorch.org/)
 * Clone recursively
-  ```
-  git clone --recursive https://github.com/bearpaw/pytorch-classification.git
-  ```
+```
+git clone --recursive https://github.com/bearpaw/pytorch-classification.git
+```
 
 ## Training
 Please see the [Training recipes](TRAINING.md) for how to train the models.
@@ -65,10 +67,22 @@ Since the size of images in CIFAR dataset is `32x32`, popular network structures
 - [x] [DenseNet](https://arxiv.org/abs/1608.06993)
 
 ### ImageNet
-- [x] All models in `torchvision.models` (alexnet, vgg, resnet, densenet, inception_v3, squeezenet)
-- [x] [ResNeXt](https://arxiv.org/abs/1611.05431)
+- [x] All models in `torchvision.models` (e.g., alexnet, vgg, resnet, densenet, inception_v3, squeezenet, mobilenet, efficientnet, vit, convnext, etc.)
+- [x] [ResNeXt](https://arxiv.org/abs/1611.05431) (Custom implementation via `models.imagenet`)
 - [ ] [Wide Residual Networks](http://arxiv.org/abs/1605.07146)
 
+## Visualization (Grad-CAM)
+A universal Grad-CAM script (`gradcam.py`) is included for model visualization. It is compatible with all supported architectures (including ViT) and loads checkpoints saved by the training script (`train.py`).
+
+### Example Usage
+```bash
+python gradcam.py \
+    --checkpoint /path/to/checkpoint/model_best.pth.tar \
+    --image /path/to/your/image.jpg \
+    --arch resnet50 \
+    --num-classes 1000 \
+    --output gradcam_output.png
+```
 
 ## Contribute
 Feel free to create a pull request if you find any bugs or you want to contribute (e.g., more datasets and more network structures).

@@ -1,6 +1,8 @@
 """
-Universal Grad-CAM script for all model architectures
-Compatible with the training script's model zoo
+Universal Grad-CAM script
+
+Author: Adarsh Pritam
+Date: 2025-11-11
 """
 from pytorch_grad_cam import GradCAM
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget

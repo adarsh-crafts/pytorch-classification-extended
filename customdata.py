@@ -1,7 +1,12 @@
-'''
+"""
 Training script for ImageNet
 Copyright (c) Wei YANG, 2017
-'''
+
+Modified by: Adarsh Pritam (2025)
+- Added support for dynamic class number
+- Added loaders for new torchvision models (ViT, EfficientNet, etc.)
+"""
+
 from __future__ import print_function
 
 import argparse
