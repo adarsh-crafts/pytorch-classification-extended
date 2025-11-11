@@ -1,5 +1,5 @@
 # pytorch-classification
-This repository is a fork of [pytorch-classification](https://github.com/bearpaw/pytorch-classification/), extended with new features.
+This repository is a fork of [pytorch-classification](https://github.com/adarsh-crafts/pytorch-classification-extended/), extended with new features.
 
 ## Features
 * Unified interface for different network architectures
@@ -13,7 +13,7 @@ This repository is a fork of [pytorch-classification](https://github.com/bearpaw
 * Install [PyTorch](http://pytorch.org/)
 * Clone recursively
 ```
-git clone --recursive https://github.com/bearpaw/pytorch-classification.git
+git clone --recursive https://github.com/adarsh-crafts/pytorch-classification-extended.git
 ```
 
 ## Training
