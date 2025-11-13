@@ -35,7 +35,10 @@ A1_classification_training/
 ## Training
 Please see the [Training recipes](TRAINING.md) for how to train the models.
 
-## Results
+## Visualization (Grad-CAM)
+A universal Grad-CAM script (`gradcam.py`) is included for model visualization. It is compatible with all supported architectures (including ViT) and loads checkpoints saved by the training script (`train.py`).
+
+## Training Results
 
 ### CIFAR
 Top1 error rate on the CIFAR-10/100 benchmarks are reported. You may get different results when training your models with different random seed.
@@ -86,9 +89,6 @@ Since the size of images in CIFAR dataset is `32x32`, popular network structures
 - [x] All models in `torchvision.models` (e.g., alexnet, vgg, resnet, densenet, inception_v3, squeezenet, mobilenet, efficientnet, vit, convnext, etc.)
 - [x] [ResNeXt](https://arxiv.org/abs/1611.05431) (Custom implementation via `models.imagenet`)
 - [ ] [Wide Residual Networks](http://arxiv.org/abs/1605.07146)
-
-## Visualization (Grad-CAM)
-A universal Grad-CAM script (`gradcam.py`) is included for model visualization. It is compatible with all supported architectures (including ViT) and loads checkpoints saved by the training script (`train.py`).
 
 ### Example Usage
 ```bash
