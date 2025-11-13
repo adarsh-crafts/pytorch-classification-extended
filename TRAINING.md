@@ -3,10 +3,23 @@
 This document contains detailed training recipes for reproducing the results reported in the main README.
 
 ## Table of Contents
+- [Custom-data](#Custom-data)
 - [CIFAR-10](#cifar-10)
 - [CIFAR-100](#cifar-100)
 - [ImageNet](#imagenet)
 - [General Training Tips](#general-training-tips)
+
+## Custom-data
+
+#### VGG16
+```bash
+python customdata.py -a vgg16 --dataset dataset --checkpoint checkpoints/dataset/vgg16 --epochs 164 --schedule 81 122 --gamma 0.1 
+```
+
+### ResNet-50
+```bash
+python customdata.py -a resnet50 --data dataset --epochs 90 --schedule 31 61 --gamma 0.1 -c checkpoints/dataset/resnet50
+```
 
 ## CIFAR-10
 

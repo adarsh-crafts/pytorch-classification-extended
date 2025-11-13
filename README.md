@@ -16,6 +16,22 @@ This repository is a fork of [pytorch-classification](https://github.com/adarsh-
 git clone --recursive https://github.com/adarsh-crafts/pytorch-classification-extended.git
 ```
 
+## Data
+Organize your dataset in an ImageNet-style directory structure as follows:
+A1_classification_training/
+```
+│
+├── train/
+│   ├── class 1/
+│   ├── class 2/
+│   ├── class 3/
+│
+├── val/
+│   ├── class 1/
+│   ├── class 2/
+│   ├── class 3/
+```
+
 ## Training
 Please see the [Training recipes](TRAINING.md) for how to train the models.
 
