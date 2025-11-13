@@ -38,6 +38,16 @@ Please see the [Training recipes](TRAINING.md) for how to train the models.
 ## Visualization (Grad-CAM)
 A universal Grad-CAM script (`gradcam.py`) is included for model visualization. It is compatible with all supported architectures (including ViT) and loads checkpoints saved by the training script (`train.py`).
 
+### Example Usage
+```bash
+python gradcam.py \
+    --checkpoint /path/to/checkpoint/model_best.pth.tar \
+    --image /path/to/your/image.jpg \
+    --arch resnet50 \
+    --num-classes 1000 \
+    --output gradcam_output.png
+```
+
 ## Training Results
 
 ### CIFAR
@@ -89,16 +99,6 @@ Since the size of images in CIFAR dataset is `32x32`, popular network structures
 - [x] All models in `torchvision.models` (e.g., alexnet, vgg, resnet, densenet, inception_v3, squeezenet, mobilenet, efficientnet, vit, convnext, etc.)
 - [x] [ResNeXt](https://arxiv.org/abs/1611.05431) (Custom implementation via `models.imagenet`)
 - [ ] [Wide Residual Networks](http://arxiv.org/abs/1605.07146)
-
-### Example Usage
-```bash
-python gradcam.py \
-    --checkpoint /path/to/checkpoint/model_best.pth.tar \
-    --image /path/to/your/image.jpg \
-    --arch resnet50 \
-    --num-classes 1000 \
-    --output gradcam_output.png
-```
 
 ## Contribute
 Feel free to create a pull request if you find any bugs or you want to contribute (e.g., more datasets and more network structures).
