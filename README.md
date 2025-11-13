@@ -18,8 +18,8 @@ git clone --recursive https://github.com/adarsh-crafts/pytorch-classification-ex
 
 ## Data
 Organize your dataset in an ImageNet-style directory structure as follows:
-A1_classification_training/
 ```
+data/
 │
 ├── train/
 │   ├── class 1/
