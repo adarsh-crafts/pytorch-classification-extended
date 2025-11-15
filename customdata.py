@@ -50,6 +50,10 @@ parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('-d', '--data', default='path to dataset', type=str)
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
+# --- START OF CHANGE ---
+parser.add_argument('--num-classes', type=int, default=None,
+                    help='Number of classes (overrides dataset auto-detection)')
+# --- END OF CHANGE ---
 # Optimization options
 parser.add_argument('--epochs', default=90, type=int, metavar='N',
                     help='number of total epochs to run')
@@ -137,12 +141,14 @@ def main():
             normalize,
         ]))
     
-    # 2. We add this NEW LINE to get the number of classes from the dataset object.
-    num_classes = len(train_dataset.classes)
+    # 2. Check for num_classes override, else get from dataset.
+    if args.num_classes:
+        num_classes = args.num_classes
+        print(f'==> Using override --num-classes: {num_classes}')
+    else:
+        num_classes = len(train_dataset.classes)
+        print(f'==> Found {num_classes} classes from dataset.')
     
-    # 3. We add this NEW LINE to print the count (helpful for you).
-    print(f'==> Found {num_classes} classes.')
-
     # 4. We change this line to use the 'train_dataset' variable we just created,
     #    instead of creating the dataset inside the DataLoader.
     train_loader = torch.utils.data.DataLoader(
@@ -207,7 +213,7 @@ def main():
                         # 5. Try for DenseNet
                         num_ftrs = model.classifier.in_features
                         model.classifier = nn.Linear(num_ftrs, num_classes)
-        # --- END OF REQUIRED CHANGE ---
+    # --- END OF REQUIRED CHANGE ---
 
     # This single line replaces the old if/else block
     model = torch.nn.DataParallel(model).cuda()
@@ -218,6 +224,9 @@ def main():
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda()
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
+    
+    # Add ReduceLROnPlateau scheduler
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=args.gamma, patience=10)
 
     # Resume
     title = 'ImageNet-' + args.arch
@@ -245,15 +254,19 @@ def main():
 
     # Train and val
     for epoch in range(start_epoch, args.epochs):
-        adjust_learning_rate(optimizer, epoch)
+        current_lr = optimizer.param_groups[0]['lr']
+        state['lr'] = current_lr
 
-        print('\nEpoch: [%d | %d] LR: %f' % (epoch + 1, args.epochs, state['lr']))
+        print('\nEpoch: [%d | %d] LR: %f' % (epoch + 1, args.epochs, current_lr))
 
         train_loss, train_acc = train(train_loader, model, criterion, optimizer, epoch, use_cuda)
         test_loss, test_acc = test(val_loader, model, criterion, epoch, use_cuda)
 
+        # Step the scheduler based on validation accuracy
+        scheduler.step(test_acc)
+
         # append logger file
-        logger.append([state['lr'], train_loss, test_loss, train_acc, test_acc])
+        logger.append([current_lr, train_loss, test_loss, train_acc, test_acc])
 
         # save model
         is_best = test_acc > best_acc
@@ -386,13 +399,6 @@ def save_checkpoint(state, is_best, checkpoint='checkpoint', filename='checkpoin
     torch.save(state, filepath)
     if is_best:
         shutil.copyfile(filepath, os.path.join(checkpoint, 'model_best.pth.tar'))
-
-def adjust_learning_rate(optimizer, epoch):
-    global state
-    if epoch in args.schedule:
-        state['lr'] *= args.gamma
-        for param_group in optimizer.param_groups:
-            param_group['lr'] = state['lr']
 
 if __name__ == '__main__':
     main()
