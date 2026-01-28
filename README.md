@@ -2,12 +2,12 @@
 This repository is a fork of [pytorch-classification](https://github.com/adarsh-crafts/pytorch-classification-extended/), extended with new features.
 
 ## Features
+* **New:** Grad-CAM visualization script (`gradcam.py`) compatible with all supported models.
+* **New:** Expanded model support for EfficientNet, ViT, ConvNeXt, and more.
 * Unified interface for different network architectures
 * Multi-GPU support
 * Training progress bar with rich info
 * Training log and training curve visualization code (see `./utils/logger.py`)
-* **New:** Grad-CAM visualization script (`gradcam.py`) compatible with all supported models.
-* **New:** Expanded model support for EfficientNet, ViT, ConvNeXt, and more.
 
 ## Install
 * Install [PyTorch](http://pytorch.org/)
